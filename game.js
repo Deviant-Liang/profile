@@ -2,6 +2,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
 
+    // Basket properties
+    let basket = {
+        width: 100,
+        height: 50,
+        x: 0,
+        y: 0,
+        speed: 10,
+        dx: 0
+    };
+
+    // Fruit properties
+    const fruit = {
+        x: Math.random() * (canvas.width - 20),
+        y: 0,
+        radius: 20,
+        dy: 4
+    };
+
+    let score = 0;
+
     // Function to set canvas dimensions based on device
     function setCanvasDimensions() {
         if (window.innerWidth < 768) {
@@ -17,6 +37,10 @@ document.addEventListener('DOMContentLoaded', () => {
             basket.width = 100;
             basket.height = 50;
         }
+        // Update basket position after setting dimensions
+        basket.x = canvas.width / 2 - basket.width / 2;
+        basket.y = canvas.height - basket.height - 10;
+        console.log(`Canvas dimensions set to: ${canvas.width}x${canvas.height}`);
     }
 
     // Set initial canvas dimensions
@@ -25,32 +49,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Resize event listener to adjust canvas size when window size changes
     window.addEventListener('resize', setCanvasDimensions);
 
-    // Basket properties
-    const basket = {
-        width: canvas.width < 768 ? 80 : 100,
-        height: canvas.width < 768 ? 40 : 50,
-        x: canvas.width / 2 - (canvas.width < 768 ? 40 : 50),
-        y: canvas.height - (canvas.width < 768 ? 50 : 60),
-        speed: 10,
-        dx: 0
-    };
-
-    // Fruit properties
-    const fruit = {
-        x: Math.random() * (canvas.width - 20),
-        y: 0,
-        radius: 20,
-        dy: 4
-    };
-
-    let score = 0;
-
     function drawBasket() {
+        console.log('Drawing basket');
         ctx.fillStyle = '#8B4513';
         ctx.fillRect(basket.x, basket.y, basket.width, basket.height);
     }
 
     function drawFruit() {
+        console.log('Drawing fruit');
         ctx.beginPath();
         ctx.arc(fruit.x, fruit.y, fruit.radius, 0, Math.PI * 2);
         ctx.fillStyle = '#FF6347';
@@ -91,6 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function update() {
+        console.log('Updating canvas');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         drawBasket();
